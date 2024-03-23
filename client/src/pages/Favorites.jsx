@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../App.css";
 import { useAppContext } from "../context/appContext";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { onTostifyFailure, onTostifySuccess } from "../Components/tosify/Tostify";
 
 const Favorites = () => {
   const { addToFavorite, removeFromFavorite } = useAppContext();
@@ -23,8 +22,7 @@ const Favorites = () => {
         setFavoriteBooks(response.data.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching favorite books:', error);
-        toast.error('Error fetching favorite books');
+        onTostifyFailure('Error fetching favorite books');
       }
     };
 
@@ -46,11 +44,10 @@ const Favorites = () => {
       setFavoriteBooks(favoriteBooks.filter(book => book.id !== bookId));
 
       // Display success notification
-      toast.success('Book removed from favorites successfully');
+      onTostifySuccess('Book removed from favorites successfully');
     } catch (error) {
-      console.error('Error removing book from favorites:', error);
       // Display error notification
-      toast.error('Error removing book from favorites');
+      onTostifyFailure(`Error removing book from favorites : ${error}`);
     }
   };
 
@@ -83,8 +80,6 @@ const Favorites = () => {
       ) : (
         <h1 className="blank">You don't have any favorite books.</h1>
       )}
-      {/* ToastContainer for displaying notifications */}
-      <ToastContainer />
     </div>
   );
 };

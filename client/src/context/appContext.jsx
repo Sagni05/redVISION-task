@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { onTostifyFailure, onTostifySuccess } from "../Components/tosify/Tostify";
 
 const AppContext = createContext(null);
 
@@ -15,18 +14,20 @@ export const useAppContext = () => {
   return context;
 };
 
-const AppContextProvider = ({ children, token }) => {
+const AppContextProvider = ({ children }) => {
   const [books, setBooks] = useState([]);
   const [favorite, setFavorite] = useState([]);
   const [query, setQuery] = useState("");
-  const [err, setErr] = useState("");
 
-  useEffect(() => {
-    if (token) {
+
+
+
+  const getAllBooks = (tok) => {
+    if (tok) {
       axios
         .get("http://localhost:5555/book/getAllBooks", {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `${tok}`,
           },
         })
         .then((res) => {
@@ -35,7 +36,8 @@ const AppContextProvider = ({ children, token }) => {
         })
         .catch((err) => console.log(err));
     }
-  }, [token]);
+  }
+
 
 
   const addToFavorite = async (id, token) => {
@@ -46,10 +48,10 @@ const AppContextProvider = ({ children, token }) => {
         },
       });
 
-      toast.success(response.data.message);
+      onTostifySuccess(response.data.message);
 
     } catch (error) {
-      toast.error(error.response.data.message);
+      onTostifyFailure(error.response.data.message);
     }
   };
 
@@ -63,7 +65,7 @@ const AppContextProvider = ({ children, token }) => {
     book.bookName.toLowerCase().includes(query)
   );
 
-  return (<>
+  return (
     <AppContext.Provider
       value={{
         favorite,
@@ -71,12 +73,11 @@ const AppContextProvider = ({ children, token }) => {
         removeFromFavorite,
         searchBooks,
         setQuery,
+        getAllBooks
       }}
     >
       {children}
     </AppContext.Provider>
-    <ToastContainer />
-  </>
   );
 };
 

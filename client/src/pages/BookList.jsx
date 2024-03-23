@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../App.css";
 import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 
 const BookList = () => {
-  const token = localStorage.getItem("token");
+
+
   const navigate = useNavigate();
-  const { favorite, addToFavorite, removeFromFavorite, searchBooks, error } = useAppContext();
+
+  const token = localStorage.getItem("token")
+
+
+  const { favorite, addToFavorite, removeFromFavorite, searchBooks, getAllBooks } = useAppContext();
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 6
 
   const isBookInFavorites = (id) => {
     return favorite.some((book) => book.id === id);
   };
+
+
 
   // Logic to calculate pagination
   const indexOfLastBook = currentPage * booksPerPage;
@@ -33,6 +40,10 @@ const BookList = () => {
       setCurrentPage(currentPage - 1);
     }
   };
+
+  useEffect(() => {
+    getAllBooks(token)
+  }, [])
 
   return (
     <>

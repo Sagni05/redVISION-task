@@ -4,8 +4,7 @@ import axios from "axios";
 import "../../App.css";
 import styles from "./styles.module.css";
 import { jwtDecode } from 'jwt-decode';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { onTostifyFailure, onTostifySuccess } from "../tosify/Tostify";
 
 function Login() {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ function Login() {
       })
         .then((res) => {
           const { token } = res.data;
-          console.log(token);
+          // console.log(token);
           localStorage.setItem("token", token);
           const decodedToken = jwtDecode(token);
 
@@ -43,67 +42,70 @@ function Login() {
             // console.log(roleId);
 
             if (roleId === 1) {
+              onTostifySuccess("Admin Login successful");
               navigate("/admin/AdminDashboard");
             } else {
+              // console.log("test1");
+              onTostifySuccess("User Login successful");
               navigate("/books");
             }
-            toast.success("Login successful");
           } else {
-            toast.error("Invalid token format or missing roleId");
+            onTostifyFailure("Invalid token format or missing roleId");
           }
         })
         .catch((err) => {
-          toast.error(err.response?.data?.message || "An error occurred while logging in");
+          onTostifyFailure(err.response?.data?.message || "An error occurred while logging in");
         });
     } else {
-      toast.error("Please provide both email and password.");
+      onTostifyFailure("Please provide both email and password.");
     }
   };
 
   return (
-    <div className="main">
-      <div className={styles.Login_container}>
-        <div className={styles.Login_form_container}>
-          <div className={styles.left}>
-            <form className={styles.form_container} onSubmit={(e) => getUser(e)}>
-              <h1>Login to Your Account</h1>
-              <input
-                type="email"
-                placeholder="Enter your registered email"
-                name="email"
-                onChange={handleChange}
-                value={user.email}
-                required
-                className={styles.input}
-              />
-              <input
-                type="password"
-                placeholder="Enter Password"
-                name="password"
-                onChange={handleChange}
-                value={user.password}
-                required
-                className={styles.input}
-              />
-              <button type="submit" className={styles.green_btn}>
-                Submit
+    <>
+      <div className="main">
+        <div className={styles.Login_container}>
+          <div className={styles.Login_form_container}>
+            <div className={styles.left}>
+              <form className={styles.form_container} onSubmit={(e) => getUser(e)}>
+                <h1>Login to Your Account</h1>
+                <input
+                  type="email"
+                  placeholder="Enter your registered email"
+                  name="email"
+                  onChange={handleChange}
+                  value={user.email}
+                  required
+                  className={styles.input}
+                />
+                <input
+                  type="password"
+                  placeholder="Enter Password"
+                  name="password"
+                  onChange={handleChange}
+                  value={user.password}
+                  required
+                  className={styles.input}
+                />
+                <button type="submit" className={styles.green_btn}>
+                  Submit
+                </button>
+              </form>
+            </div>
+            <div className={styles.right}>
+              <h1>New User ?</h1>
+              <button
+                type="button"
+                className={styles.white_btn}
+                onClick={() => navigate("/signup")}
+              >
+                Register Here
               </button>
-            </form>
-          </div>
-          <div className={styles.right}>
-            <h1>New User ?</h1>
-            <button
-              type="button"
-              className={styles.white_btn}
-              onClick={() => navigate("/signup")}
-            >
-              Register Here
-            </button>
+            </div>
           </div>
         </div>
       </div>
-      <ToastContainer />
-    </div>
+    </>
   );
 }
 

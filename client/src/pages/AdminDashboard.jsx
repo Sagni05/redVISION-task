@@ -4,7 +4,8 @@ import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
-    const token = localStorage.getItem("token");
+
+    const token = localStorage.getItem("token")
 
     const navigate = useNavigate();
     const { favorite, addToFavorite, removeFromFavorite, searchBooks } = useAppContext();

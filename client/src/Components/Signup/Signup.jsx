@@ -3,9 +3,7 @@ import "../../App.css";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles.module.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import { onTostifyFailure, onTostifySuccess } from "../tosify/Tostify";
 
 const Signup = () => {
 
@@ -48,15 +46,15 @@ const Signup = () => {
         }
       })
         .then((res) => {
-          toast.success(res.data.message);
+          onTostifySuccess(res.data.message);
           // localStorage.setItem("token", response.data.token);
           navigate("/");
         })
         .catch((err) => {
-          toast.error(err.response.data.message);
+          onTostifyFailure(err.response.data.message);
         });
     } else {
-      toast.error("Please provide both all inputs.");
+      onTostifyFailure("Please provide both all inputs.");
     }
   };
 
@@ -131,7 +129,6 @@ const Signup = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };
