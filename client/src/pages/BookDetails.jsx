@@ -10,26 +10,33 @@ const BookDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`${"http://localhost:5555/book/book"}/${id}`)
+      .get(`http://localhost:5555/book/book/${id}`)
       .then((res) => {
-        setBook(res.data);
-        console.log(res.data, 45);
+        setBook(res.data.data[0]);
+        console.log(res.data.data);
       })
       .catch((err) => console.log(err));
   }, [id]);
 
+
   return (
     <div className="book-details">
-      <div className="book-image">
-        <h2>{book.title}</h2>
-        <img src={book.image_url} alt="img" />
-      </div>
-      <div className="book-description">
-        <bold>Description :</bold>
-        <p>{book.description}</p>
-        <h2>Author :</h2>
-        <p>{book.authors}</p>
-      </div>
+      {book && Object.keys(book).length !== 0 ? (
+        <>
+          <div className="book-image">
+            <h2>{book.bookName}</h2>
+            <img src={book.imagePath} alt="img" />
+          </div>
+          <div className="book-description">
+            <strong>Description:</strong>
+            <p>{book.description}</p>
+            <h2>Author:</h2>
+            <p>{book.author}</p>
+          </div>
+        </>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };

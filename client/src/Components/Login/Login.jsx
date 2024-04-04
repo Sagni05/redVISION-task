@@ -63,7 +63,10 @@ function Login() {
 
   return (
     <>
-      <div className="main">
+      <div className={styles.main}>
+        <div className={styles.welcome}>
+          <h2>Welcome to Book Store</h2>
+        </div>
         <div className={styles.Login_container}>
           <div className={styles.Login_form_container}>
             <div className={styles.left}>

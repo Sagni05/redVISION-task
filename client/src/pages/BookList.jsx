@@ -4,22 +4,14 @@ import { useAppContext } from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 
 const BookList = () => {
-
-
   const navigate = useNavigate();
-
-  const token = localStorage.getItem("token")
-
-
+  const token = localStorage.getItem("token");
   const { favorite, addToFavorite, removeFromFavorite, searchBooks, getAllBooks } = useAppContext();
   const [currentPage, setCurrentPage] = useState(1);
-  const booksPerPage = 6
-
+  const booksPerPage = 10;
   const isBookInFavorites = (id) => {
     return favorite.some((book) => book.id === id);
   };
-
-
 
   // Logic to calculate pagination
   const indexOfLastBook = currentPage * booksPerPage;
@@ -42,11 +34,28 @@ const BookList = () => {
   };
 
   useEffect(() => {
-    getAllBooks(token)
-  }, [])
+    getAllBooks(token);
+  }, []);
 
   return (
     <>
+      <div className="pagination">
+        <button onClick={prevPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => paginate(index + 1)}
+            className={currentPage === index + 1 ? "active" : ""}
+          >
+            {index + 1}
+          </button>
+        ))}
+        <button onClick={nextPage} disabled={currentPage === totalPages}>
+          Next
+        </button>
+      </div>
       <div className="book-list">
         {currentBooks.map((book) => (
           <div key={book.id} className="book">
@@ -73,23 +82,6 @@ const BookList = () => {
             </div>
           </div>
         ))}
-      </div>
-      <div className="pagination">
-        <button onClick={prevPage} disabled={currentPage === 1}>
-          Previous
-        </button>
-        {Array.from({ length: totalPages }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => paginate(index + 1)}
-            className={currentPage === index + 1 ? "active" : ""}
-          >
-            {index + 1}
-          </button>
-        ))}
-        <button onClick={nextPage} disabled={currentPage === totalPages}>
-          Next
-        </button>
       </div>
     </>
   );

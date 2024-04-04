@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "../App.css";
 import { useAppContext } from "../context/appContext";
 import { onTostifyFailure, onTostifySuccess } from "../Components/tosify/Tostify";
+import "../App.css";
+import { useNavigate } from "react-router-dom";
+
 
 const Favorites = () => {
   const { addToFavorite, removeFromFavorite } = useAppContext();
   const [favoriteBooks, setFavoriteBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate()
 
   const token = localStorage.getItem("token");
 
@@ -52,17 +56,17 @@ const Favorites = () => {
   };
 
   return (
-    <div className="favorite">
+    <div className="favorite-container">
       {loading ? (
         <p>Loading favorite books...</p>
       ) : favoriteBooks.length > 0 ? (
         favoriteBooks.map((book) => (
-          <div key={book.id} className="book">
+          <div key={book.id} className="favorite-book">
             <div>
               <h3>{book.bookName}</h3>
             </div>
             <div>
-              <img src={book.imagePath} alt="img" />
+              <img src={book.imagePath} alt="img" onClick={() => navigate(`/books/${book.id}`)} />
             </div>
             <div>
               {favoriteChecker(book.id) ? (

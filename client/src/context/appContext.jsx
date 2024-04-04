@@ -31,7 +31,6 @@ const AppContextProvider = ({ children }) => {
           },
         })
         .then((res) => {
-          console.log(res, 666);
           setBooks(res.data.data);
         })
         .catch((err) => console.log(err));

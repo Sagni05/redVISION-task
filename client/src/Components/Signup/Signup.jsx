@@ -54,82 +54,87 @@ const Signup = () => {
           onTostifyFailure(err.response.data.message);
         });
     } else {
-      onTostifyFailure("Please provide both all inputs.");
+      onTostifyFailure("Please provide all inputs.");
     }
   };
 
   return (
-    <div className="main">
-      <div className={styles.Signup_container}>
-        <div className={styles.Signup_form_container}>
-          <div className={styles.left}>
-            <h1>Welcome Back</h1>
-            <Link to="/">
-              <button type="button" className={styles.white_btn}>
-                Sign In
-              </button>
-            </Link>
-          </div>
-          <div className={styles.right}>
-            <form
-              className={styles.form_container}
-              onSubmit={(e) => createUser(e)}
-            >
-              <h1>Create Account</h1>
-              <input
-                type="text"
-                placeholder="Full Name"
-                name="fullName"
-                value={user.fullName}
-                onChange={registerUser}
-                required
-                className={styles.input}
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                name="email"
-                value={user.email}
-                onChange={registerUser}
-                required
-                className={styles.input}
-              />
-              <input
-                type="text"
-                placeholder="Contact Number"
-                name="contactNo"
-                value={user.contactNo}
-                onChange={registerUser}
-                required
-                className={styles.input}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                value={user.password}
-                onChange={registerUser}
-                required
-                className={styles.input}
-              />
-              <input
-                type="password"
-                placeholder="Confirm password"
-                name="confirmPass"
-                value={user.confirmPass}
-                onChange={registerUser}
-                required
-                className={styles.input}
-              />
+    <>
+      <div className={styles.main}>
+        <div className={styles.welcome}>
+          <h2>Welcome to Book Store</h2>
+        </div>
+        <div className={styles.Signup_container}>
+          <div className={styles.Signup_form_container}>
+            <div className={styles.left}>
+              <h1>Welcome Back</h1>
+              <Link to="/">
+                <button type="button" className={styles.white_btn}>
+                  Sign In
+                </button>
+              </Link>
+            </div>
+            <div className={styles.right}>
+              <form
+                className={styles.form_container}
+                onSubmit={(e) => createUser(e)}
+              >
+                <h1>Create Account</h1>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  name="fullName"
+                  value={user.fullName}
+                  onChange={registerUser}
+                  required
+                  className={styles.input}
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  value={user.email}
+                  onChange={registerUser}
+                  required
+                  className={styles.input}
+                />
+                <input
+                  type="text"
+                  placeholder="Contact Number"
+                  name="contactNo"
+                  value={user.contactNo}
+                  onChange={registerUser}
+                  required
+                  className={styles.input}
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  value={user.password}
+                  onChange={registerUser}
+                  required
+                  className={styles.input}
+                />
+                <input
+                  type="password"
+                  placeholder="Confirm password"
+                  name="confirmPass"
+                  value={user.confirmPass}
+                  onChange={registerUser}
+                  required
+                  className={styles.input}
+                />
 
-              <button type="submit" className={styles.green_btn}>
-                Sign Up
-              </button>
-            </form>
+                <button type="submit" className={styles.green_btn}>
+                  Sign Up
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
